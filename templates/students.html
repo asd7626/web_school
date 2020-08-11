@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <legend class=" mt-4 mb-4 text-center"> <h3> СПИСОК УЧЕНИКОВ </h3> </legend>
+    <table class="table table-bordered">
+  <thead class="bg-primary">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Имя</th>
+      <th scope="col">Фамилия</th>
+      <th scope="col">Год Рождения</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for student in students %}
+    <tr>
+      <th scope="row"> {{ student[0] }} </th>
+      <td> <p class="font-weight-bold"> {{ student[1] }} </p> </td>
+      <td> <p class="font-weight-bold"> {{ student[2] }} </p> </td>
+      <td> <p class="font-weight-bold"> {{ student[3] }} </p> </td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+  <br>
+<h3 class="text-center"> Добавить нового ученика </h3>
+  <br>
+<form action="{{ url_for('add_student') }}" method="post">
+        {{ form.hidden_tag() }}
+    <div class="row">
+        <div class="col">
+            {{ form.first_name (class="form-control form-control", placeholder="Имя") }}
+        </div>
+
+        <div class="col">
+            {{ form.last_name (class="form-control form-control", placeholder="Фамилия") }}
+        </div>
+
+        <div class="col">
+            {{ form.year (class="form-control form-control", placeholder="Год Рождения") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </div>
+</form>
+
+<br>
+<h3 class="text-center"> Удалить ученика </h3>
+<br>
+
+<form method="POST" action="{{ url_for ('remove_student') }}" >
+  <div class="row">
+    <div class="col-4">
+      <input type="text" name="id"  class="form-control" placeholder="Введите id ученика">
+    </div>
+    <button type="submit" class="btn btn-primary">Удалить</button>
+  </div>
+</form>
+
+</div>
+
+{% endblock content %}
