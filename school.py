@@ -31,9 +31,13 @@ def show_all_students():
     cur = conn.cursor()
     cur.execute('SELECT rowid, * FROM students')
     students_db = cur.fetchall()
+    amount = len(students_db)
+    cur.execute('SELECT  AVG(year) FROM students')
+    avg = cur.fetchall()
+    avg = '{:.1f}'.format(2020 - avg[0][0])
     conn.commit()
     conn.close()
-    return render_template('students.html', students=students_db, form=form)
+    return render_template('students.html', students=students_db, form=form, amount=amount, avg=avg)
 
 
 @app.route('/add/', methods=['POST'])
@@ -51,15 +55,16 @@ def add_student():
     return redirect(url_for('show_all_students'))
 
 
-@app.route('/remove/', methods=['POST'])
+@app.route('/remove/', methods=['POST', 'DELETE'])
 def remove_student():
-    conn = sqlite3.connect('student.db')
-    cur = conn.cursor()
-    student_id = request.form['id']
-    cur.execute('DELETE from students WHERE rowid=(?)', (student_id, ))
-    conn.commit()
-    conn.close()
-    flash('Студент был удален из списка', 'warning')
+    if request.method == 'POST':
+        conn = sqlite3.connect('student.db')
+        cur = conn.cursor()
+        student_id = request.form['delete']
+        cur.execute('DELETE from students WHERE rowid=(?)', (student_id, ))
+        conn.commit()
+        conn.close()
+        flash('Студент был удален из списка', 'warning')
     return redirect(url_for('show_all_students'))
 
 
