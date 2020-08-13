@@ -5,25 +5,30 @@
     <table class="table table-bordered">
   <thead class="bg-primary">
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Имя</th>
-      <th scope="col">Фамилия</th>
-      <th scope="col">Год Рождения</th>
+      <th scope="col"><p class="text-center"> Номер </p></th>
+      <th scope="col"><p class="text-center"> Имя </p></th>
+      <th scope="col"><p class="text-center"> Фамилия </p></th>
+      <th scope="col"><p class="text-center"> Год </p></th>
+        <th scope="col"><p class="text-center"> Функции </p></th>
     </tr>
   </thead>
   <tbody>
   {% for student in students %}
     <tr>
-      <th scope="row"> {{ student[0] }} </th>
-      <td> <p class="font-weight-bold"> {{ student[1] }} </p> </td>
-      <td> <p class="font-weight-bold"> {{ student[2] }} </p> </td>
-      <td> <p class="font-weight-bold"> {{ student[3] }} </p> </td>
+      <th scope="row"> <p class="font-weight-bold text-center"> {{ student[0] }} </p> </th>
+      <td> <p class="font-weight-bold text-center"> {{ student[1] }} </p> </td>
+      <td> <p class="font-weight-bold text-center"> {{ student[2] }} </p> </td>
+      <td> <p class="font-weight-bold text-center"> {{ student[3] }} </p> </td>
+      <td> <form method="POST" action="{{ url_for('remove_student') }}">
+            <p class="font-weight-bold text-center">
+            <button type="submit" name="delete" value="{{ student[0] }}" class="btn btn-outline-danger">Удалить</button> </p> </form> </td>
     </tr>
   {% endfor %}
-
   </tbody>
 </table>
-  <br>
+<div> <p class="font-weight-bold"> Количество учеников: {{ amount }} </p> </div>
+<div> <p class="font-weight-bold"> Средний возраст: {{ avg }} лет </p> </div>
+
 <h3 class="text-center"> Добавить нового ученика </h3>
   <br>
 <form action="{{ url_for('add_student') }}" method="post">
@@ -42,19 +47,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Добавить</button>
     </div>
-</form>
-
-<br>
-<h3 class="text-center"> Удалить ученика </h3>
-<br>
-
-<form method="POST" action="{{ url_for ('remove_student') }}" >
-  <div class="row">
-    <div class="col-4">
-      <input type="text" name="id"  class="form-control" placeholder="Введите id ученика">
-    </div>
-    <button type="submit" class="btn btn-primary">Удалить</button>
-  </div>
 </form>
 
 </div>
