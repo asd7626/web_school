@@ -31,8 +31,7 @@ class Student(db.Model):
 def show_all_students():
     form = AddStudentForm()
     students_db = Student.query.all()
-    amount = len(students_db)
-    return render_template('students.html', students=students_db, form=form, amount=amount)
+    return render_template('students.html', students=students_db, form=form)
 
 
 @app.route('/add/', methods=['POST'])
