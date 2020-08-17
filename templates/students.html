@@ -15,19 +15,17 @@
   <tbody>
   {% for student in students %}
     <tr>
-      <th scope="row"> <p class="font-weight-bold text-center"> {{ student[0] }} </p> </th>
-      <td> <p class="font-weight-bold text-center"> {{ student[1] }} </p> </td>
-      <td> <p class="font-weight-bold text-center"> {{ student[2] }} </p> </td>
-      <td> <p class="font-weight-bold text-center"> {{ student[3] }} </p> </td>
-      <td> <form method="POST" action="{{ url_for('remove_student') }}">
+      <th scope="row"> <p class="font-weight-bold text-center"> {{ student.id }} </p> </th>
+      <td> <p class="font-weight-bold text-center"> {{ student.first_name }} </p> </td>
+      <td> <p class="font-weight-bold text-center"> {{ student.last_name }} </p> </td>
+      <td> <p class="font-weight-bold text-center"> {{ student.year }} </p> </td>
+      <td> <form method="post" action="{{ url_for('remove_student') }}">
             <p class="font-weight-bold text-center">
-            <button type="submit" name="delete" value="{{ student[0] }}" class="btn btn-outline-danger">Удалить</button> </p> </form> </td>
+            <button type="submit" name="delete" value="{{ student.id }}" class="btn btn-outline-danger">Удалить</button> </p> </form> </td>
     </tr>
   {% endfor %}
   </tbody>
 </table>
-<div> <p class="font-weight-bold"> Количество учеников: {{ amount }} </p> </div>
-<div> <p class="font-weight-bold"> Средний возраст: {{ avg }} лет </p> </div>
 
 <h3 class="text-center"> Добавить нового ученика </h3>
   <br>
@@ -37,11 +35,9 @@
         <div class="col">
             {{ form.first_name (class="form-control form-control", placeholder="Имя") }}
         </div>
-
         <div class="col">
             {{ form.last_name (class="form-control form-control", placeholder="Фамилия") }}
         </div>
-
         <div class="col">
             {{ form.year (class="form-control form-control", placeholder="Год Рождения") }}
         </div>
