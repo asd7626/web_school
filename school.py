@@ -28,6 +28,7 @@ class Student(db.Model):
 
 
 @app.route('/', methods=['GET', 'POST'])
+@app.route('/students/', methods=['GET', 'POST'])
 def show_all_students():
     form = AddStudentForm()
     students_db = Student.query.all()
@@ -55,6 +56,15 @@ def remove_student():
     db.session.commit()
     flash('Студент был удален из списка', 'warning')
     return redirect(url_for('show_all_students'))
+
+
+@app.route('/students/<int:id>', methods=['POST'])
+def student_profile(id):
+    student = Student.query.filter_by(id=id).first()
+    first_name = student.first_name
+    last_name = student.last_name
+    year = student.year
+    return render_template('student_profile.html', first_name=first_name, last_name=last_name, year=year)
 
 
 if __name__ == '__main__':
