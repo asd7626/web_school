@@ -19,9 +19,17 @@
       <td> <p class="font-weight-bold text-center"> {{ student.first_name }} </p> </td>
       <td> <p class="font-weight-bold text-center"> {{ student.last_name }} </p> </td>
       <td> <p class="font-weight-bold text-center"> {{ student.year }} </p> </td>
-      <td> <form method="post" action="{{ url_for('remove_student') }}">
-            <p class="font-weight-bold text-center">
-            <button type="submit" name="delete" value="{{ student.id }}" class="btn btn-outline-danger">Удалить</button> </p> </form> </td>
+      <td style="width:300px;">
+          <div class="row">
+            <form method="post" action="{{ url_for('student_profile', id=student.id) }}" class="px-4">
+                <button type="submit" name="info" value="" class="btn btn-info">Информация</button>
+            </form>
+
+            <form method="post" class="ml-2" action="{{ url_for('remove_student') }}">
+                <button type="submit" name="delete" value="{{ student.id }}" class="btn btn-outline-danger">Удалить</button>
+            </form>
+          </div>
+      </td>
     </tr>
   {% endfor %}
   </tbody>
