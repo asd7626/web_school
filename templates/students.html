@@ -5,28 +5,21 @@
     <table class="table table-bordered">
   <thead class="bg-primary">
     <tr>
-      <th scope="col"><p class="text-center"> Номер </p></th>
-      <th scope="col"><p class="text-center"> Имя </p></th>
-      <th scope="col"><p class="text-center"> Фамилия </p></th>
-      <th scope="col"><p class="text-center"> Год </p></th>
+
+        <th scope="col"><p class="text-center"> <a style="color:#333;" href="?sort=last_name&direction={{direction}}">  Имя / Фамилия </a>  </p></th>
+        <th scope="col"><p class="text-center"> <a style="color:#333;" href="?sort=year&direction={{direction}}"> Год </a> </p> </th>
         <th scope="col"><p class="text-center"> Функции </p></th>
     </tr>
   </thead>
   <tbody>
   {% for student in students %}
     <tr>
-      <th scope="row"> <p class="font-weight-bold text-center"> {{ student.id }} </p> </th>
-      <td> <p class="font-weight-bold text-center"> {{ student.first_name }} </p> </td>
-      <td> <p class="font-weight-bold text-center"> {{ student.last_name }} </p> </td>
+        <td> <p class="font-weight-bold text-center"> <a style="color:#333;" href="{{ url_for('student_profile', id=student.id) }}"> {{ student.first_name}} {{student.last_name}} </a>  </p> </td>
       <td> <p class="font-weight-bold text-center"> {{ student.year }} </p> </td>
       <td style="width:300px;">
           <div class="row">
-            <form method="post" action="{{ url_for('student_profile', id=student.id) }}" class="px-4">
-                <button type="submit" name="info" value="" class="btn btn-info">Информация</button>
-            </form>
-
-            <form method="post" class="ml-2" action="{{ url_for('remove_student') }}">
-                <button type="submit" name="delete" value="{{ student.id }}" class="btn btn-outline-danger">Удалить</button>
+            <form method="post" class="mx-auto" action="{{ url_for('remove_student') }}">
+                <button type="submit" name="delete" value="{{ student.id }}" class="btn btn-danger">Удалить</button>
             </form>
           </div>
       </td>
@@ -37,7 +30,7 @@
 
 <h3 class="text-center"> Добавить нового ученика </h3>
   <br>
-<form action="{{ url_for('add_student') }}" method="post">
+<form action="{{ url_for('show_all_students') }}" method="post">
         {{ form.hidden_tag() }}
     <div class="row">
         <div class="col">
