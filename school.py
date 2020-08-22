@@ -1,5 +1,6 @@
 from flask import Flask, url_for, redirect, request, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, Length
@@ -31,40 +32,83 @@ class Student(db.Model):
 @app.route('/students/', methods=['GET', 'POST'])
 def show_all_students():
     form = AddStudentForm()
-    students_db = Student.query.all()
-    return render_template('students.html', students=students_db, form=form)
+    sort_by = request.args.get('sort')
+    direction = request.args.get('direction')
+    if direction is None:
+        direction = 'default'
+    elif direction == 'default':
+        direction = 'reversed'
+    elif direction == 'reversed':
+        direction = 'default'
+
+    if request.method == 'GET':
+        if sort_by == 'last_name':
+            if direction == 'reversed':
+                sorted_students = Student.query.order_by(desc(Student.last_name)).all()
+            else:
+                sorted_students = Student.query.order_by(Student.last_name).all()
+        elif sort_by == 'year':
+            if direction == 'reversed':
+                sorted_students = Student.query.order_by(desc(Student.year)).all()
+            else:
+                sorted_students = Student.query.order_by(Student.year).all()
+        else:
+            sorted_students = Student.query.all()
+        return render_template('students.html', students=sorted_students, direction=direction, form=form)
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            new_student = Student(first_name=form.first_name.data, last_name=form.last_name.data, year=form.year.data)
+            db.session.add(new_student)
+            db.session.commit()
+            flash('Студент был добавлен в список', 'success')
+        else:
+            flash('Invalid input', 'danger')
+        return redirect(url_for('show_all_students'))
 
 
-@app.route('/add/', methods=['POST'])
-def add_student():
-    form = AddStudentForm()
-    if form.validate_on_submit():
-        new_student = Student(first_name=form.first_name.data, last_name=form.last_name.data, year=form.year.data)
-        db.session.add(new_student)
-        db.session.commit()
-        flash('Студент был добавлен в список', 'success')
-    else:
-        flash('Invalid input', 'danger')
-    return redirect(url_for('show_all_students'))
-
-
-@app.route('/remove/', methods=['DELETE', 'POST'])
+@app.route('/students/remove/', methods=['POST'])
 def remove_student():
-    student_id = request.form['delete']
-    student_to_delete = db.session.query(Student).filter_by(id=student_id).first()
-    db.session.delete(student_to_delete)
-    db.session.commit()
-    flash('Студент был удален из списка', 'warning')
+    if request.method == 'POST':
+        student_id = request.form['delete']
+        student_to_delete = db.session.query(Student).filter_by(id=student_id).first()
+        db.session.delete(student_to_delete)
+        db.session.commit()
+        flash('Студент был удален из списка', 'warning')
     return redirect(url_for('show_all_students'))
 
 
-@app.route('/students/<int:id>', methods=['POST'])
+@app.route('/students/<int:id>/', methods=['GET', 'POST'])
 def student_profile(id):
-    student = Student.query.filter_by(id=id).first()
-    first_name = student.first_name
-    last_name = student.last_name
-    year = student.year
-    return render_template('student_profile.html', first_name=first_name, last_name=last_name, year=year)
+    if request.method == 'GET':
+        student = Student.query.filter_by(id=id).first()
+        first_name = student.first_name
+        last_name = student.last_name
+        year = student.year
+        return render_template('student_profile.html', id=id, first_name=first_name, last_name=last_name, year=year)
+
+
+@app.route('/students/<int:id>/edit/', methods=['GET', 'POST'])
+def edit_student_info(id):
+    student_to_edit = Student.query.filter_by(id=id).first()
+
+    form = AddStudentForm()
+    form.first_name.data = student_to_edit.first_name
+    form.last_name.data = student_to_edit.last_name
+    form.year.data = student_to_edit.year
+
+    if request.method == 'POST'and form.validate_on_submit():
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        year = request.form.get('year')
+        student_to_edit.first_name = first_name
+        student_to_edit.last_name = last_name
+        student_to_edit.year = year
+        db.session.commit()
+        flash('Данные студента изменены', 'success')
+        return redirect(url_for('student_profile', id=id))
+
+    return render_template('edit_student_form.html', id=id, form=form)
 
 
 if __name__ == '__main__':
