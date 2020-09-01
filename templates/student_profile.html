@@ -1,14 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="container">
+<div class=" mt-5 container">
     <h2 class="text-center"> Профайл Ученика </h2> <br>
     <div class="row">
         <img src="/static/images/default.png" alt="" class="rounded float-left" style="width:300px; height:auto; margin-left: 10rem!important;">
         <div class="float-right mt-5 ml-5 text-center" style="font-size:25px; font-weight:bold;">
-            <form action="{{ url_for('show_all_students') }}">
-                <button type="submit" class=" mb-2 btn btn-primary">На Главную</button>
-            </form>
+
             <table class="table table-bordered table-dark">
                 <tbody>
                     <tr>

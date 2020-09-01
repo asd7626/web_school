@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="mt-5 container">
+    <h2 class=" mb-3 text-center"> Авторизация </h2>
+    <div class="col-4 mx-auto">
+
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <h5> Email </h5>
+            {{ form.email (class="mb-3 form-control form-control") }}
+            <h5> Пароль </h5>
+            {{ form.password (class="mb-3 form-control form-control") }}
+            <input type="checkbox" name="remember"> Remember me
+            <br> <br>
+            <button type="submit" class="btn btn-primary"> Войти </button>
+        </form>
+
+        <form method="get" action="{{ url_for('show_all_students')}}" class="mt-3">
+            <button type="submit" class="btn btn-info"> Назад </button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock content %}
