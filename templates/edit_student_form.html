@@ -4,7 +4,7 @@
 <div class=" mt-5 container">
     <h2 class="text-center"> Редактировать информацию о студенте </h2>
 
-    <form action="{{ url_for('edit_student_info', id=id) }}" class="mt-5" method="post">
+    <form action="{{ url_for('edit_student_info', id=id) }}" class="mt-5" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <div class="col-4 mb-3 mx-auto">
             <h4>Имя</h4> {{ form.first_name (class="form-control form-control", placeholder="Имя") }}
@@ -13,14 +13,14 @@
             <br>
             <h4>Год рождения</h4>{{ form.year (class="form-control form-control", placeholder="Год Рождения") }}
             <br>
+            <div class="row"><h4>Фото: </h4> {{ form.picture(class="form-control-sm") }}</div>
+            <br>
             <button type="submit" class="btn btn-primary"> Изменить </button>
         </div>
     </form>
 
     <div class="col-4 mb-3 mx-auto">
-        <form action="{{ url_for('student_profile', id=id) }}">
-            <button type="submit" class="btn btn-info"> Назад </button>
-        </form>
+        <p> <a href="{{ url_for('student_profile', id=id) }}"> <button class="btn btn-info"> Назад </button> </a> </p>
     </div>
 </div>
 

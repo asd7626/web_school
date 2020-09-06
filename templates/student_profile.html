@@ -4,7 +4,7 @@
 <div class=" mt-5 container">
     <h2 class="text-center"> Профайл Ученика </h2> <br>
     <div class="row">
-        <img src="/static/images/default.png" alt="" class="rounded float-left" style="width:300px; height:auto; margin-left: 10rem!important;">
+        <img src="{{img}}" class="img-thumbnail img-fluid  float-left" style="width:300px; height:auto; margin-left: 10rem!important;">
         <div class="float-right mt-5 ml-5 text-center" style="font-size:25px; font-weight:bold;">
 
             <table class="table table-bordered table-dark">
@@ -31,7 +31,9 @@
                 <form method="post" class="mx-auto" action="{{ url_for('remove_student') }}">
                     <button type="submit" name="delete" value="{{ id }}" class="btn btn-danger">Удалить ученика</button>
                 </form>
+                <br>
             </div>
+            <p class="mt-1" style="margin-left:-270px;"> <a href="{{ url_for('show_all_students') }}"> <button class="btn btn-primary"> Назад </button> </a> </p>
         </div>
     </div>
 </div>

@@ -49,17 +49,20 @@
 
 <h3 class="text-center"> Добавить нового ученика </h3>
   <br>
-<form action="{{ url_for('show_all_students') }}" method="post">
+<form action="{{ url_for('show_all_students') }}" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
     <div class="row">
         <div class="col">
-            {{ form.first_name (class="form-control form-control", placeholder="Имя") }}
+            {{ form.first_name (class="form-control", placeholder="Имя") }}
         </div>
         <div class="col">
-            {{ form.last_name (class="form-control form-control", placeholder="Фамилия") }}
+            {{ form.last_name (class="form-control", placeholder="Фамилия") }}
         </div>
         <div class="col">
-            {{ form.year (class="form-control form-control", placeholder="Год Рождения") }}
+            {{ form.year (class="form-control", placeholder="Год Рождения") }}
+        </div>
+        <div class="col mr-5">
+            {{ form.picture(class="form-control-sm") }}
         </div>
         <button type="submit" class="btn btn-primary">Добавить</button>
     </div>
