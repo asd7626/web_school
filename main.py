@@ -29,11 +29,13 @@ def show_all_students():
         if form.validate_on_submit():
             if form.picture.data:
                 picture_file = save_picture(form.picture.data)
+            else:
+                picture_file = 'default.png'
             first_name = form.first_name.data
             last_name = form.last_name.data
             year = form.year.data
             new_student = Student(first_name=first_name, last_name=last_name,
-                                  year=year)
+                                  year=year, img=picture_file)
             db.session.add(new_student)
             db.session.commit()
             flash('Студент был добавлен в список', 'success')
