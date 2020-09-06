@@ -7,6 +7,7 @@ class Student(db.Model, UserMixin):
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
     year = db.Column(db.Integer)
+    img = db.Column(db.String(40), default='default.png')
 
     def __repr__(self):
         return '({}, {}, {}, {})'.format(self.id, self.first_name, self.last_name, self.year)
