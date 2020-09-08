@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="mt-5 container">
+    <h2 class=" mb-3 text-center"> Запрос смены пароля </h2>
+    <div class="col-4 mx-auto">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <h5> Email </h5>
+            {{ form.email (class="mb-3 form-control form-control") }}
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

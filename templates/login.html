@@ -13,6 +13,9 @@
             <input type="checkbox" name="remember"> Remember me
             <br> <br>
             <button type="submit" class="btn btn-primary"> Войти </button>
+            <small>
+                <a href="{{ url_for('auth.reset_request') }}"> Забыли пароль? </a>
+            </small>
         </form>
 
         <form method="get" action="{{ url_for('show_all_students')}}" class="mt-3">
