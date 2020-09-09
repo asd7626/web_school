@@ -12,6 +12,7 @@ db = SQLAlchemy(app)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'auth.login'
+login_manager.login_message_category = 'info'
 
 mail = Mail(app)
 
@@ -26,6 +27,9 @@ app.register_blueprint(auth_blueprint)
 
 from .main import main as main_blueprint
 app.register_blueprint(main_blueprint)
+
+from .handlers import errors as errors_blueprint
+app.register_blueprint(errors_blueprint)
 
 from web_school.models import User, Student
 from web_school import routes

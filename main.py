@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from web_school.forms import AddStudentForm, UpdateInfoForm
 from web_school.models import Student
+from flask_login import login_required
 from . import app, db
 from PIL import Image
 import secrets
@@ -80,6 +81,7 @@ def student_profile(id):
 
 
 @main.route('/students/<int:id>/edit/', methods=['GET', 'POST'])
+@login_required
 def edit_student_info(id):
     student_to_edit = Student.query.filter_by(id=id).first()
 
