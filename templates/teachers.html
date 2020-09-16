@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+    <legend class=" mt-4 mb-4 text-center"><h3> СПИСОК УЧИТЕЛЕЙ </h3></legend>
+    <table class="table table-dark table-bordered">
+        <thead class="bg-dark">
+            <tr>
+                <th scope="col"> <p style="font-size:24px;" class="font-weight-bold text-center"> Имя/Фамилия </p> </th>
+                <th scope="col"> <p style="font-size:24px;" class="font-weight-bold text-center"> Предмет </p> </th>
+                {% if current_user.is_authenticated %}
+                    <th scope="col"><p style="font-size:24px;" class=" font-weight-bold text-center"> Функции </p></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for teacher in teachers %}
+                <tr>
+                    <td> <p style="font-size:18px;" class="text-center"> <a style="color: #fff;" href="{{ url_for('teachers.teacher_profile', id=teacher.id) }}"> {{ teacher.first_name}} {{ teacher.last_name }} </a> </p></td>
+                    <td> <p style="font-size:18px; color: #fff;" class="text-center">  {{ teacher.subj }}  </p></td>
+                    {% if current_user.is_authenticated %}
+                        <td style="width:300px;">
+                            <div class="row">
+                                <form method="post" class="mx-auto" action="{{ url_for('teachers.remove_teacher') }}">
+                                    <button type="submit" name="delete" value="{{ teacher.id }}" class="btn btn-danger">Удалить</button>
+                                </form>
+                            </div>
+                        </td>
+                    {% endif %}
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {% if current_user.is_authenticated %}
+    <h3 class="text-center"> Добавить нового учителя </h3>
+    <br>
+
+    <form action="{{url_for('teachers.show_all_teachers')}}" method="post">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col">
+                {{ form.first_name (class="form-control", placeholder="Имя") }}
+            </div>
+            <div class="col">
+                {{ form.last_name (class="form-control", placeholder="Фамилия") }}
+            </div>
+            <div class="col">
+                {{ form.subject (class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
+    </form>
+    {% endif %}
+
+
+
+
+
+
+</div>
+{% endblock content %}

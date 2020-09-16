@@ -12,24 +12,31 @@
 
 <nav class="navbar navbar-expand-lg navbar-primary bg-dark">
     <span class="navbar-text" style="color: white; font-size:18px;">
-    Navbar text with an inline element
+    School Application
   </span>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mx-auto" style="font-size:18px;">
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('show_all_students') }}">Home </a>
+        <a class="nav-link" href="{{ url_for('students.show_all_students') }}"> Students </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('teachers.show_all_teachers') }}"> Teachers </a>
+      </li>
+      <li class="nav-item mr-5">
+        <a  class="nav-link" href="{{ url_for('groups.show_all_classes') }}"> Classes </a>
+      </li>
+
         {% if not current_user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('login') }}"> Login </a>
+      <li class="nav-item ml-5">
+        <a  class="nav-link" style="color: #B0E0E6;" href="{{ url_for('users.login') }}"> Login </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('register') }}"> Signup </a>
+        <a  class="nav-link"  style="color: #B0E0E6;" href="{{ url_for('users.register') }}"> Signup </a>
       </li>
         {% endif %}
         {% if current_user.is_authenticated %}
-        <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('logout') }}"> Logout </a>
+        <li class="nav-item ml-5">
+        <a style="color: #B0E0E6;" class="nav-link" href="{{ url_for('users.logout') }}"> Logout </a>
       </li>
         {% endif %}
     </ul>
@@ -42,7 +49,7 @@
   <div class="dropdown-menu dropdown-menu-right">
       <button  class="dropdown-item" type="button"> <a style="text-decoration:none;" href="#"> Profile </a> </button>
       <button  class="dropdown-item" type="button"> <a style="text-decoration:none;" href="#"> Settings </a> </button>
-      <button  class="dropdown-item" type="button"> <a style="text-decoration:none;" href="{{ url_for('logout') }}"> Log Out </a></button>
+      <button  class="dropdown-item" type="button"> <a style="text-decoration:none;" href="{{ url_for('users.logout') }}"> Log Out </a></button>
   </div>
 </div>
       {% endif %}

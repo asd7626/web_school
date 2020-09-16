@@ -4,15 +4,12 @@
 <div class="mt-5 container">
     <h2 class=" mb-3 text-center"> Регистрация </h2>
     <div class="col-4 mx-auto">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="text-danger">
-                    {{ messages[0] }}. Go to <a href="{{ url_for('login') }}">login page</a>.
-                </div>
-            {% endif %}
-        {% endwith %}
 
-        <form action="{{ url_for('register') }}" method="post">
+        {% if error %}
+            <p class="text-danger"> {{ error }} <a href="{{ url_for('users.login') }}">login </a> </p>
+        {% endif %}
+
+        <form action="{{ url_for('users.register') }}" method="post">
             {{ form.hidden_tag() }}
             <h5> Логин </h5>
             {{ form.username (class="mb-3 form-control form-control") }}
@@ -25,7 +22,7 @@
             <button type="submit" class="btn btn-primary"> Регистрация </button>
         </form>
 
-        <form method="get" action="{{ url_for('show_all_students')}}" class="mt-3">
+        <form method="get" action="{{ url_for('students.show_all_students')}}" class="mt-3">
             <button type="submit" class="btn btn-info"> Назад </button>
         </form>
     </div>

@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <legend class=" mt-4 mb-4 text-center"><h3> СПИСОК КЛАССОВ</h3></legend>
+    <table class="table table-dark table-bordered">
+        <thead class="bg-dark">
+            <tr>
+                <th scope="col"> <p style="font-size:24px;" class="font-weight-bold text-center"> Класс </p> </th>
+                <th scope="col"> <p style="font-size:24px;" class="font-weight-bold text-center"> Количество </p> </th>
+                {% if current_user.is_authenticated %}
+                    <th scope="col"><p style="font-size:24px;" class="font-weight-bold text-center"> Функции </p></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for kls in classes %}
+                <tr>
+                    <td> <p style="font-size:18px;" class="text-center"> <a style="color: #fff;" href="{{ url_for('groups.kls_profile', id=kls.id) }}"> {{ kls.name }} </a> </p></td>
+                    <td> <p style="font-size:18px; color: #fff;" class="text-center"> {{ kls|length }}  </p></td>
+                    {% if current_user.is_authenticated %}
+                        <td style="width:300px;">
+                            <div class="row">
+                            <form method="post" class="mx-auto" action="{{ url_for('groups.remove_kls') }}">
+                                <button type="submit" name="delete" value="{{ kls.id }}" class="btn btn-danger">Удалить</button>
+                            </form>
+                            </div>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% if current_user.is_authenticated %}
+    <h3 class="text-center"> Добавить новый класс </h3>
+    <div class="col-5 mx-auto">
+    <br>
+    <form action="{{ url_for('groups.show_all_classes') }}" method="post">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col">
+                {{ form.grade (class="form-control", placeholder="Grade") }}
+            </div>
+            <div class="col">
+                {{ form.letter (class="form-control", placeholder="Letter") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
+    </form>
+    </div>
+{% endif %}
+
+</div>
+{% endblock content %}

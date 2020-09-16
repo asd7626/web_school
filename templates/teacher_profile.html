@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class=" mt-5 container">
+    <h2 class="text-center"> Профайл Учителя </h2> <br>
+    <div class="row">
+        <img src="{{url_for('static', filename='images/default.png')}}" class="img-thumbnail img-fluid  float-left" style="width:300px; height:auto; margin-left: 10rem!important;">
+        <div class="float-right mt-5 ml-5 text-center" style="font-size:25px; font-weight:bold;">
+
+            <table class="table table-bordered table-dark">
+                <tbody>
+                    <tr>
+                        <th scope="row">Имя учителя</th>
+                        <td> {{ first_name  }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Фамилия</th>
+                        <td> {{  last_name }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Предмет</th>
+                        <td> {{ subj }} </td>
+                    </tr>
+                </tbody>
+            </table>
+</div>
+{% endblock content %}

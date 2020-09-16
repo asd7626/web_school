@@ -27,29 +27,35 @@
                 {% endif %}
             </p>
         </th>
-        <th scope="col"><p class="text-center"> Функции </p></th>
+        {% if current_user.is_authenticated %}
+            <th scope="col"><p class="text-center"> Функции </p></th>
+        {% endif %}
     </tr>
   </thead>
   <tbody>
   {% for student in students %}
     <tr>
-        <td> <p class="font-weight-bold text-center"> <a style="color:#333;" href="{{ url_for('student_profile', id=student.id) }}"> {{ student.first_name}} {{student.last_name}} </a>  </p> </td>
+        <td> <p class="font-weight-bold text-center"> <a  href="{{ url_for('students.student_profile', id=student.id) }}"> {{ student.first_name}} {{student.last_name}} </a>  </p> </td>
       <td> <p class="font-weight-bold text-center"> {{ student.year }} </p> </td>
-      <td style="width:300px;">
+      {% if current_user.is_authenticated %}
+        <td style="width:300px;">
           <div class="row">
-            <form method="post" class="mx-auto" action="{{ url_for('remove_student') }}">
+            <form method="post" class="mx-auto" action="{{ url_for('students.remove_student') }}">
                 <button type="submit" name="delete" value="{{ student.id }}" class="btn btn-danger">Удалить</button>
             </form>
           </div>
-      </td>
+        </td>
+      {% endif %}
     </tr>
   {% endfor %}
   </tbody>
 </table>
 
+
+{% if current_user.is_authenticated %}
 <h3 class="text-center"> Добавить нового ученика </h3>
   <br>
-<form action="{{ url_for('show_all_students') }}" method="post" enctype="multipart/form-data">
+<form action="{{ url_for('students.show_all_students') }}" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
     <div class="row">
         <div class="col">
@@ -61,12 +67,16 @@
         <div class="col">
             {{ form.year (class="form-control", placeholder="Год Рождения") }}
         </div>
+        <div class="col">
+            {{ form.kls (class="form-control", placeholder="Класс") }}
+        </div>
         <div class="col mr-5">
             {{ form.picture(class="form-control-sm") }}
         </div>
         <button type="submit" class="btn btn-primary">Добавить</button>
     </div>
 </form>
+{% endif %}
 </div>
 
 {% endblock content %}
