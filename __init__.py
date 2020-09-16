@@ -5,33 +5,38 @@ from flask_mail import Mail
 from web_school.config import Config
 
 
-app = Flask(__name__)
-app.config.from_object(Config)
+db = SQLAlchemy()
 
-db = SQLAlchemy(app)
-
-login_manager = LoginManager(app)
-login_manager.login_view = 'auth.login'
+login_manager = LoginManager()
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
-mail = Mail(app)
+mail = Mail()
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
+    db.init_app(app)
+    login_manager.init_app(app)
+    mail.init_app(app)
 
-from .auth import auth as auth_blueprint
-app.register_blueprint(auth_blueprint)
+    from web_school.classes.routes import groups
+    from web_school.students.routes import students
+    from web_school.teachers.routes import teachers
+    from web_school.users.routes import users
+    from web_school.errors.routes import errors
 
-from .main import main as main_blueprint
-app.register_blueprint(main_blueprint)
+    app.register_blueprint(students)
+    app.register_blueprint(groups)
+    app.register_blueprint(teachers)
+    app.register_blueprint(users)
+    app.register_blueprint(errors)
 
-from .handlers import errors as errors_blueprint
-app.register_blueprint(errors_blueprint)
+    @app.before_first_request
+    def create_tables():
+        db.create_all()
 
-from web_school.models import User, Student
-from web_school import routes
-
+    return app
 
