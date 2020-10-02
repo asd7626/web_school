@@ -27,16 +27,20 @@
                 {% endif %}
             </p>
         </th>
+        <th>
+            <p class="text-center"> Класс </p>
+        </th>
         {% if current_user.is_authenticated %}
             <th scope="col"><p class="text-center"> Функции </p></th>
         {% endif %}
     </tr>
   </thead>
   <tbody>
-  {% for student in students %}
+  {% for student in students|sort(attribute='kls') %}
     <tr>
         <td> <p class="font-weight-bold text-center"> <a  href="{{ url_for('students.student_profile', id=student.id) }}"> {{ student.first_name}} {{student.last_name}} </a>  </p> </td>
       <td> <p class="font-weight-bold text-center"> {{ student.year }} </p> </td>
+        <td> <p class="font-weight-bold text-center"> {{ student.kls }} </p> </td>
       {% if current_user.is_authenticated %}
         <td style="width:300px;">
           <div class="row">

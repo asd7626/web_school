@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for kls in classes %}
+            {% for kls in classes|sort(attribute='name') %}
                 <tr>
                     <td> <p style="font-size:18px;" class="text-center"> <a style="color: #fff;" href="{{ url_for('groups.kls_profile', id=kls.id) }}"> {{ kls.name }} </a> </p></td>
                     <td> <p style="font-size:18px; color: #fff;" class="text-center"> {{ kls|length }}  </p></td>

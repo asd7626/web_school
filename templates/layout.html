@@ -22,8 +22,11 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('teachers.show_all_teachers') }}"> Teachers </a>
       </li>
-      <li class="nav-item mr-5">
+      <li class="nav-item">
         <a  class="nav-link" href="{{ url_for('groups.show_all_classes') }}"> Classes </a>
+      </li>
+      <li class="nav-item mr-5">
+        <a  class="nav-link" href="{{ url_for('lessons.show_all_lessons') }}"> Lessons </a>
       </li>
 
         {% if not current_user.is_authenticated %}

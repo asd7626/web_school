@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <legend class=" mt-4 mb-4 text-center"> <h3> СПИСОК УРОКОВ </h3> </legend>
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">
+                        <p> Класс </p>
+                    </th>
+
+                    <th scope="col">
+                        <p> Учитель </p>
+                    </th>
+
+                    <th scope="col">
+                        <p> Предмет </p>
+                    </th>
+
+                    <th scope="col">
+                        <p> День </p>
+                    </th>
+
+                    <th scope="col">
+                        <p> Начало </p>
+                    </th>
+
+                    <th scope="col">
+                        <p> Конец </p>
+                    </th>
+                    <th scope="col">
+                        <p> Функции </p>
+                    </th>
+                </tr>
+            </thead>
+
+            {% for lesson in lessons|sort(attribute='day') %}
+                <tr class="text-center">
+                    <td> <a href="?class={{lesson.kls}}"> {{ lesson.kls }} </a> </td>
+                    <td> <a href="?name={{lesson.teacher}}"> {{ lesson.teacher }} </a> </td>
+                    <td> {{ lesson.subject }} </td>
+                    <td> {{ lesson.day.strftime('%d %B') }} </td>
+                    <td> {{ lesson.start_time.strftime('%H:%M') }} </td>
+                    <td> {{ lesson.finish_time.strftime('%H:%M')  }} </td>
+                    <td> <form method="post" class="mx-auto" action="{{ url_for('lessons.remove_lesson') }}">
+                            <button type="submit" name="delete" value="{{ lesson.id }}" class="btn btn-danger">Удалить</button>
+                         </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <br>
+        {% if current_user.is_authenticated %}
+        <h3 class="text-center"> Добавить новый урок </h3>
+        <br>
+        <form action="{{ url_for('lessons.show_all_lessons') }}" method="post">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col">
+                    {{ form.kls (class="form-control") }}
+                </div>
+                <div class="col">
+                    {{ form.teacher (class="form-control") }}
+                </div>
+                <div class="col">
+                    {{ form.subject (class="form-control") }}
+                </div>
+                <input  type="date" name="day" value="2020-01-01" min="2020-01-01" max="2020-12-31">
+                <div class="col">
+                    {{ form.start_time (class="form-control") }}
+                </div>
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </div>
+        </form>
+    {% endif %}
+    </div>
+{% endblock content %}
