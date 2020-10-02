@@ -27,12 +27,14 @@ def create_app(config_class=Config):
     from web_school.teachers.routes import teachers
     from web_school.users.routes import users
     from web_school.errors.routes import errors
+    from web_school.lessons.routes import lessons
 
     app.register_blueprint(students)
     app.register_blueprint(groups)
     app.register_blueprint(teachers)
     app.register_blueprint(users)
     app.register_blueprint(errors)
+    app.register_blueprint(lessons)
 
     @app.before_first_request
     def create_tables():
