@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from web_school.teachers.forms import AddTeacherForm
 from web_school.teachers.models import Teacher
 from web_school.subject.models import Subject
+from web_school.lessons.models import Lesson
 
 
 teachers = Blueprint('teachers', __name__)
@@ -44,7 +45,11 @@ def remove_teacher():
     if request.method == 'POST':
         teacher_id = request.form['delete']
         teacher_to_delete = db.session.query(Teacher).filter_by(id=teacher_id).first()
+        lessons_to_delete = db.session.query(Lesson).filter_by(teacher=teacher_to_delete.first_name + ' ' + teacher_to_delete.last_name).all()
+        for lesson in lessons_to_delete:
+            db.session.delete(lesson)
         db.session.delete(teacher_to_delete)
         db.session.commit()
-        flash('Учитель был удален из списка', 'warning')
+        flash('Учитель и его уроки были удалены из списка', 'warning')
     return redirect(url_for('teachers.show_all_teachers'))
+
