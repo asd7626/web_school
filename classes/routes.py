@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from web_school.classes.forms import AddClassForm
 from web_school.students.models import Student
 from web_school.classes.models import Studentgroup
-from sqlalchemy import and_
 from web_school import db
 
 
@@ -16,8 +15,21 @@ def show_all_classes():
     if request.method == 'POST':
         if form.validate_on_submit():
             grade = form.grade.data
-            letter = form.letter.data
-            name = grade + letter
+            letter = form.letter.data.upper()
+
+            try:
+                assert grade in range(1, 13)
+            except AssertionError:
+                flash("Classes grades must be from 1 to 12!", 'danger')
+                return redirect(url_for('groups.show_all_classes'))
+
+            try:
+                assert ord(letter) in range(65, 91)
+            except AssertionError:
+                flash("Must be from A to Z", 'danger')
+                return redirect(url_for('groups.show_all_classes'))
+
+            name = str(grade) + letter
             group = db.session.query(Studentgroup).filter_by(name=name).scalar() is not None
             if group:
                 flash('This class already exists', 'danger')
